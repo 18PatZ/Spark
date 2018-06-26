@@ -1,0 +1,5 @@
+rootProject.name = 'Spark'
+include 'SparkExample'
+include 'SparkExample'
+include 'SparkExample'
+

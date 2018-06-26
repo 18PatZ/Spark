@@ -1,0 +1,12 @@
+group 'com.patrickzhong'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile files("../../LibsRepo/spigot-1.8.8.jar")
+    compile files("../../LibsRepo/lombok-1.16.2.jar")
+    compile files("../../LibsRepo/Spark-1.0.jar")
+}
