@@ -1,6 +1,7 @@
 package com.patrickzhong.spark.util;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -78,25 +79,32 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder item(ItemStack item){
+        this.item = item;
+        return this;
+    }
+
     public ItemStack build(){
 
-        if(skullOwner != null){
-            type = Material.SKULL_ITEM;
-            data = 3;
+        if(item == null) {
+            if (skullOwner != null) {
+                type = Material.SKULL_ITEM;
+                data = 3;
+            }
+
+            item = new ItemStack(type, amount, (byte) data);
+            ItemMeta im = item.getItemMeta();
+            if (name != null)
+                im.setDisplayName(CC.translate(name));
+            if (lore != null)
+                im.setLore(lore);
+            im.addItemFlags(flags);
+
+            if (skullOwner != null)
+                ((SkullMeta) im).setOwner(skullOwner);
+
+            item.setItemMeta(im);
         }
-
-        item = new ItemStack(type, amount, (byte) data);
-        ItemMeta im = item.getItemMeta();
-        if(name != null)
-            im.setDisplayName(CC.translate(name));
-        if(lore != null)
-            im.setLore(lore);
-        im.addItemFlags(flags);
-
-        if(skullOwner != null)
-            ((SkullMeta) im).setOwner(skullOwner);
-
-        item.setItemMeta(im);
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));
 
         return item;

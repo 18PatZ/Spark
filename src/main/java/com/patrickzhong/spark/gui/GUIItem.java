@@ -1,12 +1,14 @@
 package com.patrickzhong.spark.gui;
 
 import com.patrickzhong.spark.util.CC;
+import com.patrickzhong.spark.util.ItemBuilder;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,8 @@ public class GUIItem {
     @Getter private Runnable leftClick;
     @Getter private Runnable rightClick;
     @Getter private Runnable click;
+
+    private String skullOwner;
 
     private int slot;
     private SparkGUI gui;
@@ -92,15 +96,37 @@ public class GUIItem {
         return this;
     }
 
+    public GUIItem skullOwner(String s){
+        this.skullOwner = s;
+        return this;
+    }
+
+    public GUIItem item(ItemStack item){
+        this.item = item;
+        return this;
+    }
+
     public void build(){
-        item = new ItemStack(type, amount, (byte) data);
-        ItemMeta im = item.getItemMeta();
-        if(name != null)
-            im.setDisplayName(CC.translate(name));
-        if(lore != null)
-            im.setLore(lore);
-        im.addItemFlags(flags);
-        item.setItemMeta(im);
+
+        if(item == null) {
+            if (skullOwner != null) {
+                type = Material.SKULL_ITEM;
+                data = 3;
+            }
+
+            item = new ItemStack(type, amount, (byte) data);
+            ItemMeta im = item.getItemMeta();
+            if (name != null)
+                im.setDisplayName(CC.translate(name));
+            if (lore != null)
+                im.setLore(lore);
+
+            if (skullOwner != null)
+                ((SkullMeta) im).setOwner(skullOwner);
+
+            im.addItemFlags(flags);
+            item.setItemMeta(im);
+        }
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));
 
         gui.getInventory().setItem(slot, item);
