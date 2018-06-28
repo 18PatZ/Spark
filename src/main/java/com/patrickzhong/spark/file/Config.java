@@ -1,7 +1,9 @@
 package com.patrickzhong.spark.file;
 
+import com.patrickzhong.spark.util.CC;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -50,6 +52,8 @@ public class Config {
                     save();
             }
         }.runTaskTimerAsynchronously(plugin, delay, delay);
+
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7YAML file &e" + name + ".yml&7 registered."));
 
     }
 

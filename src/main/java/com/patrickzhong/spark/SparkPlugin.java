@@ -3,6 +3,7 @@ package com.patrickzhong.spark;
 import com.patrickzhong.spark.command.CommandInfo;
 import com.patrickzhong.spark.command.SparkCommand;
 import com.patrickzhong.spark.util.CC;
+import com.patrickzhong.spark.util.TextUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -23,6 +24,13 @@ public class SparkPlugin extends JavaPlugin {
     public void onEnable() {
 
         Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7Enabled Spark hook &b&l" + getClass().getName()));
+
+    }
+
+    @Override
+    public void onDisable() {
+
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7Disabled Spark hook &b&l" + getClass().getName() + "&7 :("));
 
     }
 
@@ -65,7 +73,10 @@ public class SparkPlugin extends JavaPlugin {
         pcmd.setExecutor(cmd);
         pcmd.setTabCompleter(cmd);
 
-        Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7Command &e/" + info.name() + "&7 registered."));
+        if(info.aliases().length <= 0)
+            Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7Command &e/" + info.name() + "&7 registered."));
+        else
+            Bukkit.getConsoleSender().sendMessage(CC.translate("&c[SPARK] &7Command &e/" + info.name() + "&7 registered, with aliases &e/" + TextUtil.combine(info.aliases(), 0, -1, "&7, &e/") + "&7."));
 
     }
 
