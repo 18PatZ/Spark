@@ -1,4 +1,4 @@
-name: Spark
+name: SparkAPI
 main: com.patrickzhong.spark.Spark
 version: 1.0
 author: ShowbizLocket61

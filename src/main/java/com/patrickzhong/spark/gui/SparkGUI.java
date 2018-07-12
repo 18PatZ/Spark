@@ -4,6 +4,7 @@ package com.patrickzhong.spark.gui;
 import com.patrickzhong.spark.util.CC;
 import com.patrickzhong.spark.util.ItemBuilder;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -54,10 +55,12 @@ public abstract class SparkGUI implements Listener {
 
     }
 
+    @Getter @Setter protected ItemStack backgroundItem;
+
     public void setBackground(){
-        ItemStack item = ItemBuilder.builder().type(Material.STAINED_GLASS_PANE).data(7).flag(ItemFlag.values()).name(" ").build();
+        if(backgroundItem == null) backgroundItem = ItemBuilder.builder().type(Material.STAINED_GLASS_PANE).data(7).flag(ItemFlag.values()).name(" ").build();
         for(int i = 0; i < inventory.getSize(); i++)
-            inventory.setItem(i, item);
+            inventory.setItem(i, backgroundItem.clone());
     }
 
     public void redraw(){
