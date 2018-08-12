@@ -14,7 +14,7 @@ public class Spark extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(CC.translate("&7--------------------------------"));
         Bukkit.getConsoleSender().sendMessage("");
-        Bukkit.getConsoleSender().sendMessage(CC.translate("   &c&l&nSPARK ENABLED SUCCESSFULLY&7   "));
+        Bukkit.getConsoleSender().sendMessage(CC.translate("   &c&l&nSPARK &e&k&nENABLED SUCCESSFULLY&7   "));
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage(CC.translate("&7--------------------------------"));
 
