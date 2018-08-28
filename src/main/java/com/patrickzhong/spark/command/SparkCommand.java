@@ -59,6 +59,21 @@ public class SparkCommand implements TabCompleter, CommandExecutor {
         return getPlayer(s, "Player not found.");
     }
 
+    public int getInt(String s){
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            throw new CommandException("The amount must be a number!");
+        }
+    }
+
+    public int getIntStrict(String s){
+        int num = getInt(s);
+        if(num <= 0)
+            throw new CommandException("The amount must be positive!");
+        return num;
+    }
+
     public Player getPlayer(String s, String msg){
         Player player = Bukkit.getPlayer(s);
         if(player == null)

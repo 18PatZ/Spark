@@ -35,6 +35,7 @@ public class GUIItem {
     private Color color;
 
     private String skullOwner;
+    private boolean glow = false;
 
     private int slot;
     private SparkGUI gui;
@@ -127,6 +128,11 @@ public class GUIItem {
 
     public GUIItem color(Color color){
         this.color = color;
+        return this;
+    }
+
+    public GUIItem glow(boolean glow){
+        this.glow = glow;
         return this;
     }
 

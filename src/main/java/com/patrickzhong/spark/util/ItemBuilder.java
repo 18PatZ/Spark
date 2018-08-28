@@ -31,6 +31,7 @@ public class ItemBuilder {
     private Color color;
 
     private ItemStack item;
+    private boolean glow = false;
 
     public static ItemBuilder builder(){
         return new ItemBuilder();
@@ -107,6 +108,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder glow(boolean glow){
+        this.glow = glow;
+        return this;
+    }
+
     public ItemStack build(){
 
         if (skullOwner != null) {
@@ -130,7 +136,6 @@ public class ItemBuilder {
             im.setDisplayName(CC.translate(name));
         if (lore != null)
             im.setLore(lore);
-        im.addItemFlags(flags);
 
         if (skullOwner != null)
             ((SkullMeta) im).setOwner(skullOwner);
@@ -141,6 +146,11 @@ public class ItemBuilder {
         item.setItemMeta(im);
 
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));
+
+        if(glow)
+            item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
+
+        im.addItemFlags(flags);
 
         return item;
     }

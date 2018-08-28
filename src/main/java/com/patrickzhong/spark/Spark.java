@@ -1,6 +1,7 @@
 package com.patrickzhong.spark;
 
 import com.patrickzhong.spark.util.CC;
+import com.patrickzhong.spark.util.NMSUtil;
 import com.patrickzhong.spark.util.TitleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +12,7 @@ public class Spark extends JavaPlugin {
     public void onEnable() {
 
         new TitleUtil();
+        new NMSUtil();
 
         Bukkit.getConsoleSender().sendMessage(CC.translate("&7--------------------------------"));
         Bukkit.getConsoleSender().sendMessage("");

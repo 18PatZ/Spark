@@ -18,4 +18,22 @@ public class TextUtil {
         return CC.translate(s);
     }
 
+    public static String format(int i){
+        return format(i+"");
+    }
+
+    public static String format(String s){
+        String r = "";
+        for(int j = s.length()-1; j >= 0; j--){
+            r = s.charAt(j) + r;
+            if((s.length() - j) % 3 == 0)
+                r = "," + r;
+        }
+
+        if(r.startsWith(","))
+            return r.substring(1);
+
+        return r;
+    }
+
 }
