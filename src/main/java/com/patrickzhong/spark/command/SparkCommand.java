@@ -4,6 +4,7 @@ import com.patrickzhong.spark.SparkPlugin;
 import com.patrickzhong.spark.util.CC;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
@@ -79,5 +80,12 @@ public class SparkCommand implements TabCompleter, CommandExecutor {
         if(player == null)
             throw new CommandException(msg);
         return player;
+    }
+
+    public OfflinePlayer getOfflinePlayer(String s){
+        OfflinePlayer target = Bukkit.getOfflinePlayer(s);
+        if(!target.hasPlayedBefore())
+            throw new CommandException("No player named \"" + s + "\" has joined the server before!");
+        return target;
     }
 }

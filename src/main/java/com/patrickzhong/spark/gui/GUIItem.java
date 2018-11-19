@@ -1,5 +1,7 @@
 package com.patrickzhong.spark.gui;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import com.patrickzhong.spark.util.CC;
 import com.patrickzhong.spark.util.ItemBuilder;
 import lombok.Getter;
@@ -12,9 +14,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class GUIItem {
 
@@ -35,6 +39,7 @@ public class GUIItem {
     private Color color;
 
     private String skullOwner;
+    private String skullOwner64;
     private boolean glow = false;
 
     private int slot;
@@ -121,6 +126,11 @@ public class GUIItem {
         return this;
     }
 
+    public GUIItem skullOwnerBase64(String s){
+        this.skullOwner64 = s;
+        return this;
+    }
+
     public GUIItem item(ItemStack item){
         this.item = item;
         return this;
@@ -160,7 +170,21 @@ public class GUIItem {
         if (lore != null)
             im.setLore(lore);
 
-        if (skullOwner != null)
+        if (skullOwner64 != null){
+            SkullMeta headMeta = (SkullMeta) im;
+            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+            byte[] encodedData = skullOwner64.getBytes();
+            profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+            Field profileField = null;
+            try {
+                profileField = headMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(headMeta, profile);
+            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
+                e1.printStackTrace();
+            }
+        }
+        else if (skullOwner != null)
             ((SkullMeta) im).setOwner(skullOwner);
 
         im.addItemFlags(flags);
@@ -171,6 +195,9 @@ public class GUIItem {
         item.setItemMeta(im);
 
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));
+
+        if(glow)
+            item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 
         gui.getInventory().setItem(slot, item);
     }

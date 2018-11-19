@@ -1,5 +1,7 @@
 package com.patrickzhong.spark.util;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -11,9 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by patrickzhong on 6/26/18.
@@ -28,6 +32,7 @@ public class ItemBuilder {
     private ItemFlag[] flags = new ItemFlag[0];
     private HashMap<Enchantment, Integer> enchants = new HashMap<>();
     private String skullOwner;
+    private String skullOwner64;
     private Color color;
 
     private ItemStack item;
@@ -98,6 +103,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder skullOwnerBase64(String s){
+        this.skullOwner64 = s;
+        return this;
+    }
+
     public ItemBuilder item(ItemStack item){
         this.item = item;
         return this;
@@ -137,7 +147,21 @@ public class ItemBuilder {
         if (lore != null)
             im.setLore(lore);
 
-        if (skullOwner != null)
+        if (skullOwner64 != null){
+            SkullMeta headMeta = (SkullMeta) im;
+            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+            byte[] encodedData = skullOwner64.getBytes();
+            profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+            Field profileField = null;
+            try {
+                profileField = headMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(headMeta, profile);
+            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
+                e1.printStackTrace();
+            }
+        }
+        else if (skullOwner != null)
             ((SkullMeta) im).setOwner(skullOwner);
 
         if(im instanceof LeatherArmorMeta && color != null)

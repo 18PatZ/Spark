@@ -29,7 +29,7 @@ public abstract class SparkGUI implements Listener {
     @Getter protected Plugin plugin;
     @Getter protected Inventory inventory;
 
-    private HashMap<Integer, GUIItem> map = new HashMap<>();
+    protected HashMap<Integer, GUIItem> map = new HashMap<>();
 
     public void open(Player player, Plugin plugin){
         open(player, plugin, "Inventory", 36);
@@ -68,6 +68,10 @@ public abstract class SparkGUI implements Listener {
         map.clear();
     }
 
+    public void update(){
+        map.clear();
+    }
+
     protected GUIItem item(int i){
         GUIItem item = new GUIItem(i, this);
         map.put(i, item);
@@ -78,10 +82,10 @@ public abstract class SparkGUI implements Listener {
     public void onClick(InventoryClickEvent ev){
         if (ev.getWhoClicked().equals(player) && ev.getInventory().equals(inventory)){
 
-            ev.setCancelled(true);
-
             GUIItem item = map.get(ev.getRawSlot());
             if (item != null){
+                ev.setCancelled(true);
+
                 if (ev.getClick().isLeftClick())
                     if (item.getLeftClick() != null)
                         item.getLeftClick().run();
@@ -93,8 +97,18 @@ public abstract class SparkGUI implements Listener {
                 if (item.getClick() != null)
                     item.getClick().run();
             }
+            else if(clickUndef(ev))
+                ev.setCancelled(true);
 
         }
+    }
+
+    /**
+     * For handling clicks on non-GUIItem slots (ie. slots for free movement / reorganizing inventory)
+     * Returning true cancels the click event.
+     */
+    protected boolean clickUndef(InventoryClickEvent ev){
+        return true;
     }
 
     protected void invalidate(){
