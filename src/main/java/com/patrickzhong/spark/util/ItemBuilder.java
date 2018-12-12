@@ -22,47 +22,49 @@ import java.util.UUID;
 /**
  * Created by patrickzhong on 6/26/18.
  */
-public class ItemBuilder {
 
-    private Material type;
-    private int data = -1;
-    private int amount = -1;
-    private String name = null;
-    private List<String> lore = new ArrayList<>();
-    private ItemFlag[] flags = new ItemFlag[0];
-    private HashMap<Enchantment, Integer> enchants = new HashMap<>();
-    private String skullOwner;
-    private String skullOwner64;
-    private Color color;
+@Getter
+public class ItemBuilder<T extends ItemBuilder<T>> {
 
-    private ItemStack item;
-    private boolean glow = false;
+    protected Material type;
+    protected int data = -1;
+    protected int amount = -1;
+    protected String name = null;
+    protected List<String> lore = new ArrayList<>();
+    protected ItemFlag[] flags = new ItemFlag[0];
+    protected HashMap<Enchantment, Integer> enchants = new HashMap<>();
+    protected String skullOwner;
+    protected String skullOwner64;
+    protected Color color;
+
+    protected ItemStack item;
+    protected boolean glow = false;
 
     public static ItemBuilder builder(){
         return new ItemBuilder();
     }
 
-    public ItemBuilder type(Material type){
+    public T type(Material type){
         this.type = type;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder data(int data){
+    public T data(int data){
         this.data = data;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder amount(int amount){
+    public T amount(int amount){
         this.amount = amount;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder name(String name){
+    public T name(String name){
         this.name = name;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder lore(String... lore){
+    public T lore(String... lore){
         for (String s : lore) {
             if(!s.contains("\n"))
                 this.lore.add(CC.translate(s));
@@ -72,10 +74,10 @@ public class ItemBuilder {
                     this.lore.add(CC.translate(s1));
             }
         }
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder lore(List<String> lore){
+    public T lore(List<String> lore){
         lore.forEach(s -> {
             if(!s.contains("\n"))
                 this.lore.add(CC.translate(s));
@@ -85,42 +87,42 @@ public class ItemBuilder {
                     this.lore.add(CC.translate(s1));
             }
         });
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder flag(ItemFlag... flags){
+    public T flag(ItemFlag... flags){
         this.flags = flags;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder enchant(Enchantment enchant, int level){
+    public T enchant(Enchantment enchant, int level){
         enchants.put(enchant, level);
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder skullOwner(String s){
+    public T skullOwner(String s){
         this.skullOwner = s;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder skullOwnerBase64(String s){
+    public T skullOwnerBase64(String s){
         this.skullOwner64 = s;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder item(ItemStack item){
+    public T item(ItemStack item){
         this.item = item;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder color(Color color){
+    public T color(Color color){
         this.color = color;
-        return this;
+        return (T) this;
     }
 
-    public ItemBuilder glow(boolean glow){
+    public T glow(boolean glow){
         this.glow = glow;
-        return this;
+        return (T) this;
     }
 
     public ItemStack build(){

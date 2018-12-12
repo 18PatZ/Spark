@@ -28,6 +28,7 @@ public abstract class SparkGUI implements Listener {
     @Getter protected int size;
     @Getter protected Plugin plugin;
     @Getter protected Inventory inventory;
+    protected InventoryClickEvent clickEv;
 
     protected HashMap<Integer, GUIItem> map = new HashMap<>();
 
@@ -85,6 +86,7 @@ public abstract class SparkGUI implements Listener {
             GUIItem item = map.get(ev.getRawSlot());
             if (item != null){
                 ev.setCancelled(true);
+                clickEv = ev;
 
                 if (ev.getClick().isLeftClick())
                     if (item.getLeftClick() != null)
