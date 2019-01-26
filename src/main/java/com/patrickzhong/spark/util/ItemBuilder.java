@@ -169,14 +169,13 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if(im instanceof LeatherArmorMeta && color != null)
             ((LeatherArmorMeta) im).setColor(color);
 
+        im.addItemFlags(flags);
         item.setItemMeta(im);
 
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));
 
         if(glow)
             item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
-
-        im.addItemFlags(flags);
 
         return item;
     }
