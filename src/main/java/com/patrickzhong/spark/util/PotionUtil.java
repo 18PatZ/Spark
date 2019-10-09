@@ -3,25 +3,40 @@ package com.patrickzhong.spark.util;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
+//import org.bukkit.potion.PotionData;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public class PotionUtil {
 
 
-    // level is one-indexed
+//    // level is one-indexed
+//    public static ItemStack getPotion(PotionType type, int level, boolean splash, boolean extraTime){
+//
+//
+//        ItemStack pot = new ItemStack(splash ? Material.SPLASH_POTION : Material.POTION);
+//
+//        PotionMeta pm = (PotionMeta) pot.getItemMeta();
+//
+//        pm.setBasePotionData(new PotionData(type, extraTime, level > 1));
+//
+//        pot.setItemMeta(pm);
+//        return pot;
+//
+//
+//    }
+
     public static ItemStack getPotion(PotionType type, int level, boolean splash, boolean extraTime){
 
-
-        ItemStack pot = new ItemStack(splash ? Material.SPLASH_POTION : Material.POTION);
-
-        PotionMeta pm = (PotionMeta) pot.getItemMeta();
-
-        pm.setBasePotionData(new PotionData(type, extraTime, level > 1));
-
-        pot.setItemMeta(pm);
-        return pot;
-
+        ItemStack item = new ItemStack(Material.POTION, 1);
+        Potion pot = new Potion(1);
+        pot.setType(type);
+        pot.setLevel(level);
+        if(extraTime)
+            pot.setHasExtendedDuration(extraTime);
+        pot.setSplash(splash);
+        pot.apply(item);
+        return item;
 
     }
 
