@@ -1,23 +1,17 @@
 package com.patrickzhong.spark.util;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by patrickzhong on 6/26/18.
@@ -31,7 +25,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     protected int amount = -1;
     protected String name = null;
     protected List<String> lore = new ArrayList<>();
-    protected ItemFlag[] flags = new ItemFlag[0];
+//    protected ItemFlag[] flags = new ItemFlag[0];
     protected HashMap<Enchantment, Integer> enchants = new HashMap<>();
     protected String skullOwner;
     protected String skullOwner64;
@@ -90,10 +84,10 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         return (T) this;
     }
 
-    public T flag(ItemFlag... flags){
-        this.flags = flags;
-        return (T) this;
-    }
+//    public T flag(ItemFlag... flags){
+//        this.flags = flags;
+//        return (T) this;
+//    }
 
     public T enchant(Enchantment enchant, int level){
         enchants.put(enchant, level);
@@ -149,27 +143,28 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (lore != null)
             im.setLore(lore);
 
-        if (skullOwner64 != null){
-            SkullMeta headMeta = (SkullMeta) im;
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            byte[] encodedData = skullOwner64.getBytes();
-            profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-            Field profileField = null;
-            try {
-                profileField = headMeta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(headMeta, profile);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
-                e1.printStackTrace();
-            }
-        }
-        else if (skullOwner != null)
+//        if (skullOwner64 != null){
+//            SkullMeta headMeta = (SkullMeta) im;
+//            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+//            byte[] encodedData = skullOwner64.getBytes();
+//            profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+//            Field profileField = null;
+//            try {
+//                profileField = headMeta.getClass().getDeclaredField("profile");
+//                profileField.setAccessible(true);
+//                profileField.set(headMeta, profile);
+//            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+//        else
+        if (skullOwner != null)
             ((SkullMeta) im).setOwner(skullOwner);
 
         if(im instanceof LeatherArmorMeta && color != null)
             ((LeatherArmorMeta) im).setColor(color);
 
-        im.addItemFlags(flags);
+//        im.addItemFlags(flags);
         item.setItemMeta(im);
 
         enchants.keySet().forEach(e -> item.addUnsafeEnchantment(e, enchants.get(e)));

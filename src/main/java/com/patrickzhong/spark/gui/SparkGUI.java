@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
@@ -59,7 +58,7 @@ public abstract class SparkGUI implements Listener {
     @Getter @Setter protected ItemStack backgroundItem;
 
     public void setBackground(){
-        if(backgroundItem == null) backgroundItem = ItemBuilder.builder().type(Material.STAINED_GLASS_PANE).data(7).flag(ItemFlag.values()).name(" ").build();
+        if(backgroundItem == null) backgroundItem = ItemBuilder.builder().type(Material.STAINED_GLASS_PANE).data(7).name(" ").build();
         for(int i = 0; i < inventory.getSize(); i++)
             inventory.setItem(i, backgroundItem.clone());
     }
