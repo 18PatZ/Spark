@@ -61,9 +61,12 @@ public class Config {
 
         if(!configFile.exists()){
             try {
+                if(!configFile.getParentFile().exists())
+                    configFile.getParentFile().mkdir();
                 configFile.createNewFile();
                 return true;
             } catch (IOException ignored) {
+                ignored.printStackTrace();
             }
         }
 
