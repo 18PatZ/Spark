@@ -1,4 +1,4 @@
-rootProject.name = 'Spark'
+rootProject.name = 'SparkAPI'
 include 'SparkExample'
 include 'SparkExample'
 include 'SparkExample'

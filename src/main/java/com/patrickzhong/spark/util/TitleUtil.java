@@ -104,7 +104,7 @@ public class TitleUtil {
             Class c3;
             Object pc;
 
-            if(nmsver.equalsIgnoreCase("v1_12_R1")){
+            if(nmsver.startsWith("v1_1")){ // v1_12_R1, v1_14_R1
                 Class typeC = Class.forName("net.minecraft.server." + nmsver + ".ChatMessageType");
                 Object enom = null;
                 for (Object o : typeC.getEnumConstants())
